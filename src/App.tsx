@@ -15,8 +15,8 @@ const App = () => (
       <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
         <Dashboard />
       </div>
-    </QueryClientProvider>
-  </TooltipProvider>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;
