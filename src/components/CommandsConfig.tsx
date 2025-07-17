@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,22 +7,25 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Trash2, Edit3, Save } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Plus, Trash2, Edit3, Save, Command, Zap, Activity } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-interface AdminCommand {
+interface LogItem {
   id: string;
   name: string;
+  type: 'command' | 'event';
   description: string;
   enabled: boolean;
   category: string;
   logFormat: string;
 }
 
-const defaultCommands: AdminCommand[] = [
+const defaultLogItems: LogItem[] = [
   {
     id: '1',
     name: 'givecar',
+    type: 'command',
     description: 'Daje pojazd graczowi',
     enabled: true,
     category: 'Pojazdy',
@@ -30,6 +34,7 @@ const defaultCommands: AdminCommand[] = [
   {
     id: '2',
     name: 'giveitem',
+    type: 'command',
     description: 'Daje przedmiot graczowi',
     enabled: true,
     category: 'Przedmioty',
@@ -38,6 +43,7 @@ const defaultCommands: AdminCommand[] = [
   {
     id: '3',
     name: 'setjob',
+    type: 'command',
     description: 'Ustawia pracę graczowi',
     enabled: true,
     category: 'Praca',
@@ -46,6 +52,7 @@ const defaultCommands: AdminCommand[] = [
   {
     id: '4',
     name: 'givemoney',
+    type: 'command',
     description: 'Daje pieniądze graczowi',
     enabled: true,
     category: 'Ekonomia',
@@ -54,6 +61,7 @@ const defaultCommands: AdminCommand[] = [
   {
     id: '5',
     name: 'kick',
+    type: 'command',
     description: 'Wyrzuca gracza z serwera',
     enabled: true,
     category: 'Moderacja',
@@ -62,45 +70,73 @@ const defaultCommands: AdminCommand[] = [
   {
     id: '6',
     name: 'ban',
+    type: 'command',
     description: 'Banuje gracza',
     enabled: true,
     category: 'Moderacja',
     logFormat: '**Admin:** {admin}\n**Komenda:** /ban\n**Gracz:** {target}\n**Czas:** {duration}\n**Powód:** {reason}'
+  },
+  {
+    id: '7',
+    name: 'playerConnecting',
+    type: 'event',
+    description: 'Gracz łączy się z serwerem',
+    enabled: true,
+    category: 'Eventy',
+    logFormat: '**Event:** playerConnecting\n**Gracz:** {playerName}\n**ID:** {playerId}\n**Steam:** {steamId}'
+  },
+  {
+    id: '8',
+    name: 'playerDropped',
+    type: 'event',
+    description: 'Gracz opuszcza serwer',
+    enabled: true,
+    category: 'Eventy',
+    logFormat: '**Event:** playerDropped\n**Gracz:** {playerName}\n**ID:** {playerId}\n**Powód:** {reason}'
+  },
+  {
+    id: '9',
+    name: 'chatMessage',
+    type: 'event',
+    description: 'Wiadomość na czacie',
+    enabled: false,
+    category: 'Eventy',
+    logFormat: '**Event:** chatMessage\n**Gracz:** {playerName}\n**Wiadomość:** {message}'
   }
 ];
 
 export function CommandsConfig() {
-  const [commands, setCommands] = useState<AdminCommand[]>(defaultCommands);
+  const [logItems, setLogItems] = useState<LogItem[]>(defaultLogItems);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [newCommand, setNewCommand] = useState<Partial<AdminCommand>>({});
+  const [newLogItem, setNewLogItem] = useState<Partial<LogItem>>({});
   const [showAddForm, setShowAddForm] = useState(false);
   const { toast } = useToast();
 
-  const categories = Array.from(new Set(commands.map(cmd => cmd.category)));
+  const categories = Array.from(new Set(logItems.map(item => item.category)));
 
-  const toggleCommand = (id: string) => {
-    setCommands(prev => prev.map(cmd => 
-      cmd.id === id ? { ...cmd, enabled: !cmd.enabled } : cmd
+  const toggleLogItem = (id: string) => {
+    setLogItems(prev => prev.map(item => 
+      item.id === id ? { ...item, enabled: !item.enabled } : item
     ));
     toast({
-      title: "Zaktualizowano komendę",
-      description: "Status komendy został zmieniony"
+      title: "Zaktualizowano element",
+      description: "Status elementu został zmieniony"
     });
   };
 
-  const updateCommand = (id: string, updates: Partial<AdminCommand>) => {
-    setCommands(prev => prev.map(cmd => 
-      cmd.id === id ? { ...cmd, ...updates } : cmd
+  const updateLogItem = (id: string, updates: Partial<LogItem>) => {
+    setLogItems(prev => prev.map(item => 
+      item.id === id ? { ...item, ...updates } : item
     ));
     setEditingId(null);
     toast({
-      title: "Zaktualizowano komendę",
+      title: "Zaktualizowano element",
       description: "Zmiany zostały zapisane"
     });
   };
 
-  const addCommand = () => {
-    if (!newCommand.name || !newCommand.description) {
+  const addLogItem = () => {
+    if (!newLogItem.name || !newLogItem.description || !newLogItem.type) {
       toast({
         title: "Błąd",
         description: "Wypełnij wszystkie wymagane pola",
@@ -109,121 +145,145 @@ export function CommandsConfig() {
       return;
     }
 
-    const command: AdminCommand = {
+    const logItem: LogItem = {
       id: Date.now().toString(),
-      name: newCommand.name || '',
-      description: newCommand.description || '',
+      name: newLogItem.name || '',
+      type: newLogItem.type as 'command' | 'event',
+      description: newLogItem.description || '',
       enabled: true,
-      category: newCommand.category || 'Inne',
-      logFormat: newCommand.logFormat || '**Admin:** {admin}\n**Komenda:** /{name}\n**Cel:** {target}'
+      category: newLogItem.category || 'Inne',
+      logFormat: newLogItem.logFormat || `**${newLogItem.type === 'command' ? 'Komenda' : 'Event'}:** ${newLogItem.name}\n**Gracz:** {playerName}`
     };
 
-    setCommands(prev => [...prev, command]);
-    setNewCommand({});
+    setLogItems(prev => [...prev, logItem]);
+    setNewLogItem({});
     setShowAddForm(false);
     toast({
-      title: "Dodano komendę",
-      description: `Komenda "${command.name}" została dodana`
+      title: "Dodano element",
+      description: `${logItem.type === 'command' ? 'Komenda' : 'Event'} "${logItem.name}" został dodany`
     });
   };
 
-  const deleteCommand = (id: string) => {
-    setCommands(prev => prev.filter(cmd => cmd.id !== id));
+  const deleteLogItem = (id: string) => {
+    setLogItems(prev => prev.filter(item => item.id !== id));
     toast({
-      title: "Usunięto komendę",
-      description: "Komenda została usunięta z listy"
+      title: "Usunięto element",
+      description: "Element został usunięty z listy"
     });
   };
+
+  const commands = logItems.filter(item => item.type === 'command');
+  const events = logItems.filter(item => item.type === 'event');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-fivem-primary">
-              {commands.length}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="bg-gradient-to-br from-fivem-primary/10 to-fivem-primary/5 border-fivem-primary/20">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-fivem-primary mb-2">
+              {logItems.length}
             </div>
-            <p className="text-sm text-muted-foreground">Wszystkich komend</p>
+            <p className="text-sm text-muted-foreground">Wszystkich elementów</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-primary">
-              {commands.filter(cmd => cmd.enabled).length}
+        <Card className="bg-gradient-to-br from-fivem-secondary/10 to-fivem-secondary/5 border-fivem-secondary/20">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-fivem-secondary mb-2">
+              {commands.length}
+            </div>
+            <p className="text-sm text-muted-foreground">Komend</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-gradient-to-br from-fivem-accent/10 to-fivem-accent/5 border-fivem-accent/20">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-fivem-accent mb-2">
+              {events.length}
+            </div>
+            <p className="text-sm text-muted-foreground">Eventów</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-primary mb-2">
+              {logItems.filter(item => item.enabled).length}
             </div>
             <p className="text-sm text-muted-foreground">Aktywnych</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-fivem-secondary">
-              {categories.length}
-            </div>
-            <p className="text-sm text-muted-foreground">Kategorii</p>
-          </CardContent>
-        </Card>
       </div>
 
-      {/* Add Command Button */}
+      {/* Add Log Item Button */}
       <div className="flex justify-end">
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-gradient-primary hover:opacity-90"
+          className="bg-gradient-to-r from-fivem-primary to-fivem-secondary hover:from-fivem-primary/80 hover:to-fivem-secondary/80 shadow-lg"
         >
           <Plus className="w-4 h-4 mr-2" />
-          Dodaj Komendę
+          Dodaj Nowy Element
         </Button>
       </div>
 
-      {/* Add Command Form */}
+      {/* Add Log Item Form */}
       {showAddForm && (
-        <Card className="border-fivem-primary/20">
+        <Card className="border-fivem-primary/30 bg-gradient-to-br from-fivem-primary/5 to-transparent">
           <CardHeader>
-            <CardTitle className="text-fivem-primary">Nowa Komenda</CardTitle>
+            <CardTitle className="text-fivem-primary">Nowy Element Logowania</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="cmd-name">Nazwa komendy</Label>
+                <Label htmlFor="log-name">Nazwa</Label>
                 <Input
-                  id="cmd-name"
-                  placeholder="np. teleport"
-                  value={newCommand.name || ''}
-                  onChange={(e) => setNewCommand(prev => ({ ...prev, name: e.target.value }))}
+                  id="log-name"
+                  placeholder="np. givecar lub playerConnecting"
+                  value={newLogItem.name || ''}
+                  onChange={(e) => setNewLogItem(prev => ({ ...prev, name: e.target.value }))}
                 />
               </div>
               <div>
-                <Label htmlFor="cmd-category">Kategoria</Label>
+                <Label htmlFor="log-type">Typ</Label>
+                <Select value={newLogItem.type} onValueChange={(value) => setNewLogItem(prev => ({ ...prev, type: value as 'command' | 'event' }))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Wybierz typ" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="command">Komenda</SelectItem>
+                    <SelectItem value="event">Event</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="log-category">Kategoria</Label>
                 <Input
-                  id="cmd-category"
-                  placeholder="np. Teleportacja"
-                  value={newCommand.category || ''}
-                  onChange={(e) => setNewCommand(prev => ({ ...prev, category: e.target.value }))}
+                  id="log-category"
+                  placeholder="np. Pojazdy, Eventy"
+                  value={newLogItem.category || ''}
+                  onChange={(e) => setNewLogItem(prev => ({ ...prev, category: e.target.value }))}
                 />
               </div>
             </div>
             <div>
-              <Label htmlFor="cmd-desc">Opis</Label>
+              <Label htmlFor="log-desc">Opis</Label>
               <Input
-                id="cmd-desc"
-                placeholder="Opis funkcji komendy"
-                value={newCommand.description || ''}
-                onChange={(e) => setNewCommand(prev => ({ ...prev, description: e.target.value }))}
+                id="log-desc"
+                placeholder="Opis funkcji"
+                value={newLogItem.description || ''}
+                onChange={(e) => setNewLogItem(prev => ({ ...prev, description: e.target.value }))}
               />
             </div>
             <div>
-              <Label htmlFor="cmd-format">Format logu</Label>
+              <Label htmlFor="log-format">Format logu</Label>
               <Textarea
-                id="cmd-format"
+                id="log-format"
                 placeholder="**Admin:** {admin}\n**Komenda:** /{name}"
-                value={newCommand.logFormat || ''}
-                onChange={(e) => setNewCommand(prev => ({ ...prev, logFormat: e.target.value }))}
+                value={newLogItem.logFormat || ''}
+                onChange={(e) => setNewLogItem(prev => ({ ...prev, logFormat: e.target.value }))}
                 className="font-mono text-sm"
               />
             </div>
             <div className="flex gap-2">
-              <Button onClick={addCommand} className="bg-gradient-primary">
+              <Button onClick={addLogItem} className="bg-gradient-to-r from-fivem-primary to-fivem-secondary">
                 <Save className="w-4 h-4 mr-2" />
                 Dodaj
               </Button>
@@ -235,68 +295,87 @@ export function CommandsConfig() {
         </Card>
       )}
 
-      {/* Commands by Category */}
+      {/* Log Items by Category */}
       {categories.map(category => (
-        <Card key={category}>
+        <Card key={category} className="shadow-lg bg-card/50 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              <span>{category}</span>
-              <Badge variant="outline">
-                {commands.filter(cmd => cmd.category === category).length} komend
+              <div className="flex items-center gap-2">
+                <Activity className="w-5 h-5 text-fivem-primary" />
+                <span>{category}</span>
+              </div>
+              <Badge variant="outline" className="border-fivem-primary/30">
+                {logItems.filter(item => item.category === category).length} elementów
               </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {commands
-                .filter(cmd => cmd.category === category)
-                .map(command => (
-                <div key={command.id} className="border rounded-lg p-4 space-y-3">
+              {logItems
+                .filter(item => item.category === category)
+                .map(logItem => (
+                <div key={logItem.id} className="border rounded-lg p-4 space-y-3 bg-gradient-to-r from-card to-card/50 hover:from-fivem-primary/5 hover:to-fivem-secondary/5 transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Switch
-                        checked={command.enabled}
-                        onCheckedChange={() => toggleCommand(command.id)}
+                        checked={logItem.enabled}
+                        onCheckedChange={() => toggleLogItem(logItem.id)}
                       />
-                      <div>
-                        <h4 className="font-semibold">/{command.name}</h4>
-                        <p className="text-sm text-muted-foreground">{command.description}</p>
+                      <div className="flex items-center gap-2">
+                        {logItem.type === 'command' ? (
+                          <Command className="w-4 h-4 text-fivem-primary" />
+                        ) : (
+                          <Zap className="w-4 h-4 text-fivem-secondary" />
+                        )}
+                        <div>
+                          <h4 className="font-semibold">
+                            {logItem.type === 'command' ? '/' : ''}{logItem.name}
+                          </h4>
+                          <p className="text-sm text-muted-foreground">{logItem.description}</p>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Badge variant={command.enabled ? "default" : "secondary"}>
-                        {command.enabled ? "Aktywna" : "Nieaktywna"}
+                      <Badge variant={logItem.enabled ? "default" : "secondary"}>
+                        {logItem.enabled ? "Aktywny" : "Nieaktywny"}
+                      </Badge>
+                      <Badge variant="outline" className={
+                        logItem.type === 'command' 
+                          ? "border-fivem-primary/30 text-fivem-primary" 
+                          : "border-fivem-secondary/30 text-fivem-secondary"
+                      }>
+                        {logItem.type === 'command' ? 'Komenda' : 'Event'}
                       </Badge>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => setEditingId(editingId === command.id ? null : command.id)}
+                        onClick={() => setEditingId(editingId === logItem.id ? null : logItem.id)}
                       >
                         <Edit3 className="w-4 h-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => deleteCommand(command.id)}
+                        onClick={() => deleteLogItem(logItem.id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
                   
-                  {editingId === command.id && (
+                  {editingId === logItem.id && (
                     <div className="space-y-3 border-t pt-3">
                       <div>
                         <Label>Format logu Discord</Label>
                         <Textarea
-                          value={command.logFormat}
-                          onChange={(e) => updateCommand(command.id, { logFormat: e.target.value })}
+                          value={logItem.logFormat}
+                          onChange={(e) => updateLogItem(logItem.id, { logFormat: e.target.value })}
                           className="font-mono text-sm"
                           rows={4}
                         />
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        Dostępne zmienne: {'{admin}'}, {'{target}'}, {'{amount}'}, {'{reason}'}, {'{item}'}, {'{vehicle}'}
+                        Dostępne zmienne: {'{admin}'}, {'{target}'}, {'{playerName}'}, {'{playerId}'}, {'{amount}'}, {'{reason}'}, {'{item}'}, {'{vehicle}'}
                       </div>
                     </div>
                   )}
