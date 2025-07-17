@@ -3,60 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
-:root {
+  :root {
     --background: 220 13% 6%;
     --foreground: 0 0% 95%;
-
     --card: 220 13% 8%;
     --card-foreground: 0 0% 95%;
-
     --popover: 220 13% 8%;
     --popover-foreground: 0 0% 95%;
-
     --primary: 271 60% 50%;
     --primary-foreground: 0 0% 98%;
-
     --secondary: 220 13% 12%;
     --secondary-foreground: 0 0% 95%;
-
     --muted: 220 13% 12%;
     --muted-foreground: 240 5% 64.9%;
-
     --accent: 220 13% 12%;
     --accent-foreground: 0 0% 95%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 220 13% 15%;
     --input: 220 13% 10%;
     --ring: 271 60% 50%;
-
-    /* Custom theme colors - more subtle */
-    --fivem-primary: 271 60% 50%;
-    --fivem-secondary: 220 13% 80%;
-    --fivem-accent: 271 30% 40%;
-    --fivem-dark: 220 13% 6%;
-    --fivem-darker: 220 13% 4%;
-    
-    /* Gradients - more subtle */
-    --gradient-primary: linear-gradient(135deg, hsl(220 13% 8%), hsl(220 13% 12%));
-    --gradient-secondary: linear-gradient(135deg, hsl(220 13% 10%), hsl(220 13% 15%));
-    --gradient-accent: linear-gradient(135deg, hsl(271 60% 50%), hsl(271 30% 40%));
-    --gradient-dark: linear-gradient(135deg, hsl(220 13% 6%), hsl(220 13% 10%));
-    
-    /* Shadows - more subtle */
-    --shadow-glow: 0 0 20px hsl(271 60% 50% / 0.1);
-    --shadow-purple: 0 10px 30px -10px hsl(271 60% 50% / 0.1);
-    --shadow-card: 0 4px 20px -4px hsl(220 13% 3% / 0.6);
-
     --radius: 0.5rem;
-
     --sidebar-background: 220 13% 6%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 271 60% 50%;
@@ -72,41 +40,38 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
+  
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
-  /* FiveM specific styles */
-  .fivem-ui {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 1000;
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
   }
 
-  .fivem-ui.visible {
-    pointer-events: all;
+  ::-webkit-scrollbar-track {
+    background: rgb(17 24 39);
+    border-radius: 4px;
   }
 
-  .fivem-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 95vw;
-    max-width: 1400px;
-    height: 90vh;
-    max-height: 900px;
-    overflow: hidden;
+  ::-webkit-scrollbar-thumb {
+    background: rgb(75 85 99);
+    border-radius: 4px;
+    border: 1px solid rgb(31 41 55);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: rgb(17 24 39);
   }
 }
 
-/* Custom animations */
 @layer utilities {
   .animate-glow {
     animation: glow 3s ease-in-out infinite alternate;
@@ -114,10 +79,10 @@ All colors MUST be HSL.
 
   @keyframes glow {
     from {
-      box-shadow: 0 0 10px hsl(var(--fivem-primary) / 0.2);
+      box-shadow: 0 0 10px rgb(168 85 247 / 0.2);
     }
     to {
-      box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.3);
+      box-shadow: 0 0 20px rgb(168 85 247 / 0.3);
     }
   }
 
@@ -148,7 +113,7 @@ All colors MUST be HSL.
   }
 
   .bg-gradient-animated {
-    background: linear-gradient(-45deg, hsl(var(--fivem-dark)), hsl(var(--card)), hsl(var(--fivem-dark)), hsl(var(--secondary)));
+    background: linear-gradient(-45deg, rgb(17 24 39), rgb(31 41 55), rgb(17 24 39), rgb(55 65 81));
     background-size: 400% 400%;
     animation: gradient-shift 12s ease infinite;
   }
@@ -165,86 +130,68 @@ All colors MUST be HSL.
     }
   }
 
-  /* Glass morphism effect - more subtle */
+  /* Glass effects */
   .glass {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .glass-purple {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--fivem-primary) / 0.2);
+    border: 1px solid rgb(168 85 247 / 0.2);
   }
 
-  /* Subtle purple accents */
-  .neon-purple {
-    box-shadow: 0 0 10px hsl(var(--fivem-primary) / 0.3);
+  /* Scroll area improvements */
+  .scroll-area-viewport {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(75 85 99) rgb(17 24 39);
   }
 
-  .neon-purple-strong {
-    box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.4), 
-                inset 0 0 10px hsl(var(--fivem-primary) / 0.1);
+  /* Button improvements */
+  .btn-primary {
+    @apply bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700;
   }
 
-  /* Improved scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
+  .btn-secondary {
+    @apply bg-gray-800 hover:bg-gray-700 text-gray-300 border-gray-700 hover:border-gray-600;
   }
 
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--fivem-dark));
-    border-radius: 3px;
+  .btn-outline {
+    @apply bg-transparent hover:bg-gray-800 text-gray-300 border-gray-600 hover:border-gray-500;
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--fivem-primary) / 0.5);
-    border-radius: 3px;
+  /* Card improvements */
+  .card-dark {
+    @apply bg-gray-900/50 border-gray-800 hover:bg-gray-800/50 transition-all duration-200;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--fivem-primary) / 0.7);
+  .card-header-dark {
+    @apply bg-gradient-to-r from-purple-900/20 to-purple-800/20 border-b border-gray-800;
   }
 
-  /* FiveM specific utilities - more subtle */
-  .fivem-button {
-    background: linear-gradient(135deg, hsl(var(--fivem-primary) / 0.8), hsl(var(--fivem-primary) / 0.6));
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+  /* Tab improvements */
+  .tab-trigger {
+    @apply text-gray-400 hover:text-white hover:bg-gray-800 data-[state=active]:bg-purple-600 data-[state=active]:text-white transition-all duration-200;
   }
 
-  .fivem-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s ease;
+  /* Input improvements */
+  .input-dark {
+    @apply bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500;
   }
 
-  .fivem-button:hover::before {
-    left: 100%;
+  /* Badge improvements */
+  .badge-dark {
+    @apply bg-gray-800 text-gray-300 border-gray-700;
   }
 
-  .fivem-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 15px hsl(var(--fivem-primary) / 0.3);
+  /* Dropdown improvements */
+  .dropdown-dark {
+    @apply bg-gray-900 border-gray-800 text-white shadow-xl;
   }
 
-  .fivem-card {
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.9));
-    border: 1px solid hsl(var(--border));
-    box-shadow: var(--shadow-card);
-    transition: all 0.3s ease;
-  }
-
-  .fivem-card:hover {
-    border-color: hsl(var(--fivem-primary) / 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px hsl(var(--fivem-primary) / 0.1);
+  .dropdown-item-dark {
+    @apply hover:bg-gray-800 focus:bg-gray-800 text-gray-300 hover:text-white;
   }
 }
