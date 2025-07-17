@@ -821,17 +821,19 @@ function hideUI() {
     isVisible = false;
     document.getElementById('container').classList.add('hidden');
     
-    // Send close message to client
-    fetch(\`https://\${GetParentResourceName()}/close\`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-    });
+    // Send close message to client - FiveM compatible
+    if (typeof GetParentResourceName !== 'undefined') {
+        fetch(\`https://\${GetParentResourceName()}/close\`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        });
+    }
 }
 
-// Utility function for resource name
+// FiveM resource name function
 function GetParentResourceName() {
     return 'zav-logs';
 }`;
