@@ -9,97 +9,62 @@ All colors MUST be HSL.
 
 @layer base {
 :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 220 13% 8%;
+    --foreground: 0 0% 95%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 13% 10%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 13% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 142 76% 36%;
-    --primary-foreground: 356 29% 15%;
+    --primary: 271 81% 56%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 240 3.7% 15.9%;
+    --muted: 220 13% 15%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 220 13% 15%;
+    --accent-foreground: 0 0% 95%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142 76% 36%;
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 271 81% 56%;
 
-    /* Custom FiveM theme colors */
-    --fivem-primary: 142 76% 36%;
-    --fivem-secondary: 271 81% 56%;
-    --fivem-accent: 47 96% 53%;
-    --fivem-dark: 240 10% 3.9%;
+    /* Custom theme colors */
+    --fivem-primary: 271 81% 56%;
+    --fivem-secondary: 290 95% 65%;
+    --fivem-accent: 310 100% 70%;
+    --fivem-dark: 220 13% 8%;
+    --fivem-darker: 220 13% 5%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(142 76% 36%), hsl(271 81% 56%));
-    --gradient-secondary: linear-gradient(135deg, hsl(271 81% 56%), hsl(47 96% 53%));
-    --gradient-accent: linear-gradient(135deg, hsl(47 96% 53%), hsl(142 76% 36%));
+    --gradient-primary: linear-gradient(135deg, hsl(271 81% 56%), hsl(290 95% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(290 95% 65%), hsl(310 100% 70%));
+    --gradient-accent: linear-gradient(135deg, hsl(310 100% 70%), hsl(271 81% 56%));
+    --gradient-dark: linear-gradient(135deg, hsl(220 13% 8%), hsl(220 13% 12%));
     
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(142 76% 36% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(240 10% 3.9% / 0.5);
+    --shadow-glow: 0 0 40px hsl(271 81% 56% / 0.3);
+    --shadow-purple: 0 20px 40px -10px hsl(271 81% 56% / 0.2);
+    --shadow-card: 0 10px 30px -10px hsl(220 13% 5% / 0.8);
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-background: 220 13% 8%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 271 81% 56%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 13% 20%;
+    --sidebar-ring: 271 81% 56%;
   }
 }
 
@@ -110,6 +75,33 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* FiveM specific styles */
+  .fivem-ui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .fivem-ui.visible {
+    pointer-events: all;
+  }
+
+  .fivem-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 1200px;
+    height: 85vh;
+    max-height: 800px;
   }
 }
 
@@ -174,9 +166,27 @@ All colors MUST be HSL.
 
   /* Glass morphism effect */
   .glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+  }
+
+  .glass-purple {
+    background: rgba(168, 85, 247, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+
+  /* Purple neon effects */
+  .neon-purple {
+    box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.5), 
+                inset 0 0 20px hsl(var(--fivem-primary) / 0.1);
+  }
+
+  .neon-purple-strong {
+    box-shadow: 0 0 40px hsl(var(--fivem-primary) / 0.8), 
+                0 0 80px hsl(var(--fivem-primary) / 0.4),
+                inset 0 0 20px hsl(var(--fivem-primary) / 0.2);
   }
 
   /* Improved scrollbar */
@@ -185,7 +195,7 @@ All colors MUST be HSL.
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: hsl(var(--fivem-dark));
     border-radius: 4px;
   }
 
@@ -196,5 +206,46 @@ All colors MUST be HSL.
 
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, hsl(var(--fivem-secondary)), hsl(var(--fivem-accent)));
+  }
+
+  /* FiveM specific utilities */
+  .fivem-button {
+    background: linear-gradient(135deg, hsl(var(--fivem-primary)), hsl(var(--fivem-secondary)));
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fivem-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .fivem-button:hover::before {
+    left: 100%;
+  }
+
+  .fivem-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px hsl(var(--fivem-primary) / 0.4);
+  }
+
+  .fivem-card {
+    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.8));
+    border: 1px solid hsl(var(--fivem-primary) / 0.2);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+  }
+
+  .fivem-card:hover {
+    border-color: hsl(var(--fivem-primary) / 0.4);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-purple);
   }
 }
