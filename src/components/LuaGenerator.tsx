@@ -869,8 +869,8 @@ Edit \`config.lua\` to customize:
 
 ## Commands
 
-- \`/${Config.UI.command}\` - Open admin UI (admins only)
-- Default keybind: \`${Config.UI.keybind}\`
+- \`/zavlogs\` - Open admin UI (admins only)
+- Default keybind: \`F9\`
 
 ## Framework: ${selectedFramework.toUpperCase()}
 
