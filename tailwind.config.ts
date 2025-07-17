@@ -61,7 +61,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				fivem: {
+					primary: 'hsl(var(--fivem-primary))',
+					secondary: 'hsl(var(--fivem-secondary))',
+					accent: 'hsl(var(--fivem-accent))',
+					dark: 'hsl(var(--fivem-dark))'
 				}
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-secondary': 'var(--gradient-secondary)',
+				'gradient-accent': 'var(--gradient-accent)',
+			},
+			boxShadow: {
+				'glow': 'var(--shadow-glow)',
+				'card': 'var(--shadow-card)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
