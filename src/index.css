@@ -9,62 +9,62 @@ All colors MUST be HSL.
 
 @layer base {
 :root {
-    --background: 220 13% 8%;
+    --background: 220 13% 6%;
     --foreground: 0 0% 95%;
 
-    --card: 220 13% 10%;
+    --card: 220 13% 8%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 220 13% 10%;
+    --popover: 220 13% 8%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 271 81% 56%;
+    --primary: 271 60% 50%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 220 13% 15%;
+    --secondary: 220 13% 12%;
     --secondary-foreground: 0 0% 95%;
 
-    --muted: 220 13% 15%;
+    --muted: 220 13% 12%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 220 13% 15%;
+    --accent: 220 13% 12%;
     --accent-foreground: 0 0% 95%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 20%;
-    --input: 220 13% 15%;
-    --ring: 271 81% 56%;
+    --border: 220 13% 15%;
+    --input: 220 13% 10%;
+    --ring: 271 60% 50%;
 
-    /* Custom theme colors */
-    --fivem-primary: 271 81% 56%;
-    --fivem-secondary: 290 95% 65%;
-    --fivem-accent: 310 100% 70%;
-    --fivem-dark: 220 13% 8%;
-    --fivem-darker: 220 13% 5%;
+    /* Custom theme colors - more subtle */
+    --fivem-primary: 271 60% 50%;
+    --fivem-secondary: 220 13% 80%;
+    --fivem-accent: 271 30% 40%;
+    --fivem-dark: 220 13% 6%;
+    --fivem-darker: 220 13% 4%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(271 81% 56%), hsl(290 95% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(290 95% 65%), hsl(310 100% 70%));
-    --gradient-accent: linear-gradient(135deg, hsl(310 100% 70%), hsl(271 81% 56%));
-    --gradient-dark: linear-gradient(135deg, hsl(220 13% 8%), hsl(220 13% 12%));
+    /* Gradients - more subtle */
+    --gradient-primary: linear-gradient(135deg, hsl(220 13% 8%), hsl(220 13% 12%));
+    --gradient-secondary: linear-gradient(135deg, hsl(220 13% 10%), hsl(220 13% 15%));
+    --gradient-accent: linear-gradient(135deg, hsl(271 60% 50%), hsl(271 30% 40%));
+    --gradient-dark: linear-gradient(135deg, hsl(220 13% 6%), hsl(220 13% 10%));
     
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsl(271 81% 56% / 0.3);
-    --shadow-purple: 0 20px 40px -10px hsl(271 81% 56% / 0.2);
-    --shadow-card: 0 10px 30px -10px hsl(220 13% 5% / 0.8);
+    /* Shadows - more subtle */
+    --shadow-glow: 0 0 20px hsl(271 60% 50% / 0.1);
+    --shadow-purple: 0 10px 30px -10px hsl(271 60% 50% / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(220 13% 3% / 0.6);
 
     --radius: 0.5rem;
 
-    --sidebar-background: 220 13% 8%;
+    --sidebar-background: 220 13% 6%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 271 81% 56%;
+    --sidebar-primary: 271 60% 50%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent: 220 13% 12%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 220 13% 20%;
-    --sidebar-ring: 271 81% 56%;
+    --sidebar-border: 220 13% 15%;
+    --sidebar-ring: 271 60% 50%;
   }
 }
 
@@ -98,30 +98,31 @@ All colors MUST be HSL.
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90vw;
-    max-width: 1200px;
-    height: 85vh;
-    max-height: 800px;
+    width: 95vw;
+    max-width: 1400px;
+    height: 90vh;
+    max-height: 900px;
+    overflow: hidden;
   }
 }
 
 /* Custom animations */
 @layer utilities {
   .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
+    animation: glow 3s ease-in-out infinite alternate;
   }
 
   @keyframes glow {
     from {
-      box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.3);
+      box-shadow: 0 0 10px hsl(var(--fivem-primary) / 0.2);
     }
     to {
-      box-shadow: 0 0 40px hsl(var(--fivem-primary) / 0.6);
+      box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.3);
     }
   }
 
   .animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
+    animation: pulse-slow 4s ease-in-out infinite;
   }
 
   @keyframes pulse-slow {
@@ -129,12 +130,12 @@ All colors MUST be HSL.
       opacity: 1;
     }
     50% {
-      opacity: 0.7;
+      opacity: 0.8;
     }
   }
 
   .animate-float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
   }
 
   @keyframes float {
@@ -142,14 +143,14 @@ All colors MUST be HSL.
       transform: translateY(0px);
     }
     50% {
-      transform: translateY(-10px);
+      transform: translateY(-5px);
     }
   }
 
   .bg-gradient-animated {
-    background: linear-gradient(-45deg, hsl(var(--fivem-primary)), hsl(var(--fivem-secondary)), hsl(var(--fivem-accent)), hsl(var(--fivem-primary)));
+    background: linear-gradient(-45deg, hsl(var(--fivem-dark)), hsl(var(--card)), hsl(var(--fivem-dark)), hsl(var(--secondary)));
     background-size: 400% 400%;
-    animation: gradient-shift 8s ease infinite;
+    animation: gradient-shift 12s ease infinite;
   }
 
   @keyframes gradient-shift {
@@ -164,53 +165,51 @@ All colors MUST be HSL.
     }
   }
 
-  /* Glass morphism effect */
+  /* Glass morphism effect - more subtle */
   .glass {
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(168, 85, 247, 0.2);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .glass-purple {
-    background: rgba(168, 85, 247, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(168, 85, 247, 0.3);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--fivem-primary) / 0.2);
   }
 
-  /* Purple neon effects */
+  /* Subtle purple accents */
   .neon-purple {
-    box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.5), 
-                inset 0 0 20px hsl(var(--fivem-primary) / 0.1);
+    box-shadow: 0 0 10px hsl(var(--fivem-primary) / 0.3);
   }
 
   .neon-purple-strong {
-    box-shadow: 0 0 40px hsl(var(--fivem-primary) / 0.8), 
-                0 0 80px hsl(var(--fivem-primary) / 0.4),
-                inset 0 0 20px hsl(var(--fivem-primary) / 0.2);
+    box-shadow: 0 0 20px hsl(var(--fivem-primary) / 0.4), 
+                inset 0 0 10px hsl(var(--fivem-primary) / 0.1);
   }
 
   /* Improved scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
     background: hsl(var(--fivem-dark));
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, hsl(var(--fivem-primary)), hsl(var(--fivem-secondary)));
-    border-radius: 4px;
+    background: hsl(var(--fivem-primary) / 0.5);
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, hsl(var(--fivem-secondary)), hsl(var(--fivem-accent)));
+    background: hsl(var(--fivem-primary) / 0.7);
   }
 
-  /* FiveM specific utilities */
+  /* FiveM specific utilities - more subtle */
   .fivem-button {
-    background: linear-gradient(135deg, hsl(var(--fivem-primary)), hsl(var(--fivem-secondary)));
+    background: linear-gradient(135deg, hsl(var(--fivem-primary) / 0.8), hsl(var(--fivem-primary) / 0.6));
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -223,7 +222,7 @@ All colors MUST be HSL.
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     transition: left 0.5s ease;
   }
 
@@ -232,20 +231,20 @@ All colors MUST be HSL.
   }
 
   .fivem-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px hsl(var(--fivem-primary) / 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px hsl(var(--fivem-primary) / 0.3);
   }
 
   .fivem-card {
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.8));
-    border: 1px solid hsl(var(--fivem-primary) / 0.2);
+    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.9));
+    border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-card);
     transition: all 0.3s ease;
   }
 
   .fivem-card:hover {
-    border-color: hsl(var(--fivem-primary) / 0.4);
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-purple);
+    border-color: hsl(var(--fivem-primary) / 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px hsl(var(--fivem-primary) / 0.1);
   }
 }
