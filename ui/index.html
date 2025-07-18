@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zav Logs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container" class="hidden">
+        <div class="header">
+            <div class="header-left">
+                <h1>Zav Logs</h1>
+                <span id="server-time"></span>
+            </div>
+            <button id="close-btn">&times;</button>
+        </div>
+        <div class="content">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="overview">Przegląd</button>
+                <button class="tab-btn" data-tab="logs">Logi</button>
+                <button class="tab-btn" data-tab="categories">Kategorie</button>
+            </div>
+            <div class="tab-content">
+                <div id="overview" class="tab-panel active">
+                    <h2>Statystyki Systemu</h2>
+                    <div class="stats">
+                        <div class="stat-card">
+                            <h3>Łącznie Logów</h3>
+                            <span id="total-logs" class="stat-number">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Dzisiaj</h3>
+                            <span id="today-logs" class="stat-number">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Aktywne Webhooks</h3>
+                            <span id="active-webhooks" class="stat-number">0</span>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="refreshData()">
+                            Odśwież Dane
+                        </button>
+                        <button class="action-btn" onclick="exportLogs()">
+                            Eksportuj Logi
+                        </button>
+                    </div>
+                </div>
+                <div id="logs" class="tab-panel">
+                    <div class="logs-header">
+                        <h2>Ostatnie Logi</h2>
+                        <div class="logs-controls">
+                            <select id="category-filter">
+                                <option value="">Wszystkie kategorie</option>
+                                <option value="admin">Admin</option>
+                                <option value="economy">Ekonomia</option>
+                                <option value="vehicles">Pojazdy</option>
+                                <option value="items">Przedmioty</option>
+                                <option value="jobs">Prace</option>
+                                <option value="moderation">Moderacja</option>
+                                <option value="events">Eventy</option>
+                            </select>
+                            <button onclick="refreshLogs()">Odśwież</button>
+                        </div>
+                    </div>
+                    <div id="log-list" class="log-list">
+                        <div class="loading">Ładowanie logów...</div>
+                    </div>
+                </div>
+                <div id="categories" class="tab-panel">
+                    <h2>Kategorie Logów</h2>
+                    <div class="category-grid">
+                        <div class="category-card" data-category="admin">
+                            <h3>Admin</h3>
+                            <span class="category-count">0</span>
+                        </div>
+                        <div class="category-card" data-category="economy">
+                            <h3>Ekonomia</h3>
+                            <span class="category-count">0</span>
+                        </div>
+                        <div class="category-card" data-category="vehicles">
+                            <h3>Pojazdy</h3>
+                            <span class="category-count">0</span>
+                        </div>
+                        <div class="category-card" data-category="moderation">
+                            <h3>Moderacja</h3>
+                            <span class="category-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,73 +1,158 @@
-# Welcome to your Lovable project
 
-## Project info
+# Zav Logs System - Kompletny Zasób FiveM
 
-**URL**: https://lovable.dev/projects/fc941040-1efa-469b-b0cf-704358afbe31
+Zaawansowany system logowania dla serwerów FiveM z integracją Discord webhooks, bazą danych MySQL i panelem administracyjnym.
 
-## How can I edit this code?
+## 🎯 Funkcje
 
-There are several ways of editing your application.
+- 📊 **Baza danych** - Przechowywanie wszystkich logów w MySQL
+- 🔗 **Discord Webhooks** - Automatyczne wysyłanie logów na Discord
+- 👮 **Panel Admin** - Interfejs do przeglądania logów (tylko grupa "best")
+- ⚡ **Real-time** - Automatyczne odświeżanie danych
+- 🎮 **Komenda /logi** - Łatwy dostęp do panelu
+- 🔒 **Bezpieczeństwo** - Tylko uprawnienia dla grupy "best"
 
-**Use Lovable**
+## 📋 Wymagania
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/fc941040-1efa-469b-b0cf-704358afbe31) and start prompting.
+- **ESX Framework**
+- **mysql-async** lub **oxmysql**
+- **Serwer MySQL/MariaDB**
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🚀 Instalacja
 
-**Use your preferred IDE**
+### 1. Baza Danych
+1. Otwórz plik `database.sql`
+2. Uruchom skrypt w swojej bazie danych MySQL
+3. Tabele `zav_logs` i `zav_webhooks` zostaną utworzone
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 2. Zasób FiveM
+1. Skopiuj folder `zav-logs` do `resources/`
+2. Dodaj do `server.cfg`:
+   ```
+   ensure zav-logs
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 3. Konfiguracja
+1. Edytuj `config.lua`:
+   - Ustaw webhooks Discord w bazie danych lub pliku config
+   - Sprawdź ustawienia uprawnień (domyślnie grupa "best")
 
-Follow these steps:
+### 4. Webhook Discord (opcjonalne)
+1. Utwórz webhooks na swoim serwerze Discord
+2. Dodaj URL-e do bazy danych w tabeli `zav_webhooks`
+3. Lub ustaw je bezpośrednio w `config.lua`
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📖 Użytkowanie
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Komendy
+- `/logi` - Otwiera panel administracyjny (tylko grupa "best")
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Panel Administratora
+- **Przegląd** - Statystyki systemu
+- **Logi** - Przeglądanie wszystkich logów z filtrowaniem
+- **Kategorie** - Podział logów według kategorii
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Automatyczne Logowanie
+System automatycznie loguje:
+- Komendy administracyjne (givecar, givemoney, setjob, kick, ban, itp.)
+- Wydarzenia serwera (połączenia, rozłączenia graczy)
+- Akcje moderacyjne
+
+## 🛠️ Konfiguracja
+
+### Webhooks Discord
+Edytuj tabele `zav_webhooks` w bazie danych:
+```sql
+UPDATE zav_webhooks SET url = 'TWÓJ_WEBHOOK_URL' WHERE name = 'admin';
 ```
 
-**Edit a file directly in GitHub**
+### Dodanie Nowych Komend
+W pliku `config.lua` dodaj nowe komendy do sekcji `Config.Commands`:
+```lua
+['twojakomenda'] = {
+    enabled = true,
+    category = 'admin',
+    webhook = 'admin',
+    title = '🔧 Twoja Komenda',
+    color = 3447003,
+    description = 'Opis komendy'
+}
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Integracja z Istniejącymi Skryptami
+Dodaj do swoich skryptów administracyjnych:
+```lua
+-- Na początku komendy
+exports['zav-logs']:LogCommand('nazwaKomendy', adminId, targetId, arg1, arg2, ...)
+```
 
-**Use GitHub Codespaces**
+## 🔧 API/Eksporty
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Logowanie Komend
+```lua
+exports['zav-logs']:LogCommand(command, adminId, targetId, ...)
+```
 
-## What technologies are used for this project?
+### Logowanie Eventów
+```lua
+exports['zav-logs']:LogEvent(eventName, ...)
+```
 
-This project is built with:
+### Wysyłanie na Discord
+```lua
+exports['zav-logs']:SendDiscordLog(webhook, title, description, fields, color)
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Pobieranie Logów
+```lua
+exports['zav-logs']:GetPlayerLogs(callback, limit, offset)
+```
 
-## How can I deploy this project?
+## 🗂️ Struktura Plików
 
-Simply open [Lovable](https://lovable.dev/projects/fc941040-1efa-469b-b0cf-704358afbe31) and click on Share -> Publish.
+```
+zav-logs/
+├── fxmanifest.lua          # Manifest zasobu
+├── config.lua              # Konfiguracja główna
+├── database.sql            # Skrypt bazy danych
+├── server/
+│   ├── main.lua           # Główny skrypt serwera
+│   └── database.lua       # Funkcje bazodanowe
+├── client/
+│   └── main.lua           # Skrypt klienta
+├── ui/
+│   ├── index.html         # Interfejs HTML
+│   ├── style.css          # Style CSS
+│   └── script.js          # JavaScript UI
+└── README.md              # Dokumentacja
+```
 
-## Can I connect a custom domain to my Lovable project?
+## 🐛 Rozwiązywanie Problemów
 
-Yes, you can!
+### Brak dostępu do komendy /logi
+- Sprawdź czy jesteś w grupie "best": `/setgroup [id] best`
+- Sprawdź konfigurację w `config.lua`
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Logi nie zapisują się
+- Sprawdź połączenie z bazą danych
+- Sprawdź logi konsoli serwera
+- Włącz Debug w `config.lua`
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Webhooks nie działają
+- Sprawdź URL webhooks w bazie danych
+- Sprawdź uprawnienia webhook na Discord
+- Sprawdź logi serwera
+
+## 📞 Support
+
+Dla wsparcia technicznego:
+- Sprawdź logi konsoli FiveM
+- Włącz `Config.Debug = true`
+- Sprawdź połączenie z bazą danych
+
+---
+
+**Wersja:** 3.0.0  
+**Framework:** ESX  
+**Komenda:** /logi  
+**Uprawnienia:** Grupa "best"
